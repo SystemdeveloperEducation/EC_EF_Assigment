@@ -25,6 +25,6 @@ internal class DataContext : DbContext
 
     #endregion
 
-    public DbSet<ProductEntity> Products { get; set; } = null!;
-    public DbSet<CategoryEntity> Categories { get; set; } = null!;
+    public DbSet<IssuersEntity> Issuers { get; set; } = null!;
+    public DbSet<RoleEntity> Roles { get; set; } = null!;
 }
