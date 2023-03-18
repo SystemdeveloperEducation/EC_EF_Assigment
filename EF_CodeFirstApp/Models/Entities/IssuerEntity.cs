@@ -7,7 +7,6 @@ internal class IssuersEntity
     public string LastName { get; set; } = null!;
     public string Email { get; set; } = null!;
     public string PhoneNumber { get; set; } = null!;
-    public string? Description { get; set; } = null!;
     // tho code below says that an Issuer can have only one Role
     public int RoleId { get; set; }
     public RoleEntity Role { get; set; } = null!;
