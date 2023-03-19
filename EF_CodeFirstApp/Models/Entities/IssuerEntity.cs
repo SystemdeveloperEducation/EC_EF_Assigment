@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace EF_CodeFirstApp.Models.Entities;
 
 internal class IssuersEntity
@@ -10,4 +12,5 @@ internal class IssuersEntity
     // tho code below says that an Issuer can have only one Role
     public int RoleId { get; set; }
     public RoleEntity Role { get; set; } = null!;
+    public ICollection<IssueEntity> Issues { get; set; } = new HashSet<IssueEntity>();
 }

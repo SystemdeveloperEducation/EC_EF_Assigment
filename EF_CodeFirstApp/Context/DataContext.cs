@@ -29,4 +29,5 @@ internal class DataContext : DbContext
 
     public DbSet<IssuersEntity> Issuers { get; set; } = null!;
     public DbSet<RoleEntity> Roles { get; set; } = null!;
+    public DbSet<IssueEntity> Issues { get; set; } = null!;
 }

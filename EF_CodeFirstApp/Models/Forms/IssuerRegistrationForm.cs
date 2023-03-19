@@ -1,6 +1,6 @@
 namespace EF_CodeFirstApp.Models.Forms;
 
-internal class IssuerRegistrationForm
+public class IssuerRegistrationForm
 {
     public string FirstName { get; set; } = null!;
     public string LastName { get; set; } = null!;

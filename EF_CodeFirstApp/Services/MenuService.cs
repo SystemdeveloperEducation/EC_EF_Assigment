@@ -11,17 +11,22 @@ public class Menu
     public async Task MainMenu()
     {
         Console.Clear();
-        Console.ForegroundColor = ConsoleColor.Red; ;
+        Console.ForegroundColor = ConsoleColor.Cyan;
         // Console.WriteLine("<<<<<<<<WELCOME TO THE ISSUER MENU>>>>>>>>");
         Console.WriteLine(@"  _____                             
   \_   \ ___  ___  _   _   ___  ___ 
    / /\// __|/ __|| | | | / _ \/ __|
-/\/ /_  \__ \\__ \| |_| ||  __/\__ \
-\____/  |___/|___/ \__,_| \___||___/");
+/\/ /_  \__ \\__ \| |_| ||  __/\__ \  '(◣_◢)'
+\____/  |___/|___/ \__,_| \___||___/ 
+
+");
+
         Console.ResetColor();
         Console.WriteLine("1. Create a new issuer");
         Console.WriteLine("2. Get all issuers");
-        Console.WriteLine("3. Exit");
+        Console.WriteLine("3. Get issuer by email");
+        Console.WriteLine("4. Exit");
+        Console.Write("|> ");
         var option = Console.ReadLine();
         switch (option)
         {
@@ -32,24 +37,35 @@ public class Menu
                 await Getall();
                 break;
             case "3":
-                Console.WriteLine("<<<<<<<<GOODBYE>>>>>>>>");
-                Environment.Exit(0);
+                await GetUserByEmail();
+                break;
+            case "4":
+                Exit();
                 break;
             default:
-                Console.WriteLine("<<<<<<<<INVALID OPTION>>>>>>>>");
+                Invalid();
                 break;
         }
+        Console.WriteLine("Press any key to continue...");
         Console.ReadKey();
     }
 
 
     public async Task CreateIssuer()
     {
+        var regForm = InteractiveCreateIssuer();
+        await issuerService.CreateAsync(regForm);
+    }
+
+    public IssuerRegistrationForm InteractiveCreateIssuer()
+    {
         var regForm = new IssuerRegistrationForm();
         Console.Clear();
+        Console.ForegroundColor = ConsoleColor.Magenta;
         Console.WriteLine("<<<<<<<<CREATE A NEW ISSUER>>>>>>>>");
+        Console.ResetColor();
         Console.WriteLine("Enter the first name");
-        regForm.FirstName = Console.ReadLine();
+        regForm.FirstName = Console.ReadLine()!;
         Console.WriteLine("Enter the last name");
         regForm.LastName = Console.ReadLine();
         Console.WriteLine("Enter the email");
@@ -58,21 +74,48 @@ public class Menu
         regForm.PhoneNumber = Console.ReadLine();
         Console.WriteLine("Enter the role name");
         regForm.RoleName = Console.ReadLine();
-        await issuerService.CreateAsync(regForm);
+        return regForm;
     }
-    public async Task GetUserByEmail(string email)
+
+
+    public async Task GetUserByEmail()
     {
-        await issuerService.GetAsync(email);
+        Console.Clear();
+        Console.WriteLine("Enter Email");
+        Console.Write("|> ");
+        var email = Console.ReadLine();
+        var issuerByEmail = await issuerService.GetAsync(email);
+        Console.WriteLine($"{issuerByEmail.FirstName}, {issuerByEmail.LastName}, {issuerByEmail.Email}");
     }
 
     public async Task Getall()
     {
         Console.Clear();
+        Console.ForegroundColor = ConsoleColor.Magenta;
         Console.WriteLine("<<<<<<<<LIST OF THE ISSUERS>>>>>>>>");
+        Console.ResetColor();
         var issuers = await issuerService.GetallAsync();
         foreach (var issuer in issuers)
         {
             Console.WriteLine($"{issuer.FirstName}, {issuer.LastName}, {issuer.Email}, {issuer.PhoneNumber}, {issuer.RoleId}, {issuer.Role.Name}");
         }
+    }
+
+    private void Exit()
+    {
+        Console.Clear();
+        Console.ForegroundColor = ConsoleColor.Magenta;
+        Console.WriteLine("<<<<<<<<GOODBYE>>>>>>>>");
+        Console.ResetColor();
+        Environment.Exit(0);
+
+    }
+
+    private void Invalid()
+    {
+        Console.Clear();
+        Console.ForegroundColor = ConsoleColor.Red;
+        Console.WriteLine("<<<<<<<<INVALID OPTION>>>>>>>>");
+        Console.ResetColor();
     }
 }
