@@ -8,7 +8,7 @@ namespace EF_CodeFirstApp.Services;
 internal class IssuerService
 {
     private readonly DataContext _context = new DataContext();
-    private readonly RoleService _roleService = null!;
+    private readonly RoleService _roleService = new RoleService();
 
     public async Task<IEnumerable<IssuersEntity>> GetallAsync()
     {
@@ -45,7 +45,7 @@ internal class IssuerService
             LastName = issuerRegistrationForm.LastName,
             Email = issuerRegistrationForm.Email,
             PhoneNumber = issuerRegistrationForm.PhoneNumber,
-            RoleId = roleEntity.Id //(await _roleService.GetOrCreateIfNotExistsAsync(issuerRegistrationForm.RoleName)).Id,
+            RoleId = (await _roleService.GetOrCreateIfNotExistsAsync(issuerRegistrationForm.RoleName)).Id,
             // CategoryId = (await _roreService.GetOrCreateIfNotExistsAsync(productRegistrationForm.CategoryName)).Id,
         };
         Console.WriteLine($"created the Issuer Model with {IssuersEntity.FirstName}, {IssuersEntity.Email}, {IssuersEntity.RoleId}");

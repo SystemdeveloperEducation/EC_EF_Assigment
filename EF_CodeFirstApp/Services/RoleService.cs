@@ -6,22 +6,25 @@ namespace EF_CodeFirstApp.Services;
 
 internal class RoleService
 {
-    private readonly DataContext _context = null!;
+    private readonly DataContext _context = new DataContext();
 
     public async Task<RoleEntity> GetOrCreateIfNotExistsAsync(string roleName)
     {
-        var roleEntity = await _context.Roles.FirstOrDefaultAsync(x => x.Name == roleName);
-        System.Console.WriteLine($"Inside getOrcreate ROLES <<<<<  {roleEntity.Name}");
-        if (roleEntity == null)
+        System.Console.WriteLine("INSIDE GETORCREATE!!!");
+        // TODO I get not a reference to object fix it
+        // var roleEntity = await _context.Roles.FirstOrDefaultAsync(x => x.Name == roleName);  //.Roles.FirstOrDefaultAsync(x => x.Name == roleName);
+        // System.Console.WriteLine($"Inside getOrcreate ROLES <<<<<  {roleEntity.Name}");
+        // if (roleEntity == null)
+        // {
+        var roleEntity = new RoleEntity
         {
-            roleEntity = new RoleEntity
-            {
-                Name = roleName
-            };
-            System.Console.WriteLine($"Created new Role entetity with name {roleEntity.Name}");
-            await _context.Roles.AddAsync(roleEntity);
-            await _context.SaveChangesAsync();
-        }
+            Name = roleName
+        };
+        System.Console.WriteLine($"Created new Role entetity with name {roleEntity.Name}");
+        await _context.Roles.AddAsync(roleEntity);
+        await _context.SaveChangesAsync();
+        // }
+        System.Console.WriteLine("Changes SAVED");
         return roleEntity;
     }
 
