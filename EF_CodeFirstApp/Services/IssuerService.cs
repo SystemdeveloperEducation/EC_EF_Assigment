@@ -7,7 +7,7 @@ namespace EF_CodeFirstApp.Services;
 
 internal class IssuerService
 {
-    private readonly DataContext _context;
+    private readonly DataContext _context = new DataContext();
     private readonly RoleService _roleService = null!;
 
     public async Task<IEnumerable<IssuersEntity>> GetallAsync()

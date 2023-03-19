@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EF_CodeFirstApp.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230318182222_NewTables")]
-    partial class NewTables
+    [Migration("20230318214712_Start")]
+    partial class Start
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

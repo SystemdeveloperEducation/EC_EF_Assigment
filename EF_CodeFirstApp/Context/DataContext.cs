@@ -18,9 +18,11 @@ internal class DataContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        string connectionString = "Driver={ODBC Driver 18 for SQL Server};Server=localhost;Database=AndresTestDB;Uid=sa;Pwd=Miyamoto81;TrustServerCertificate=yes;";
-        OdbcConnection connection = new OdbcConnection(connectionString);
-        optionsBuilder.UseSqlServer(connection, options => options.EnableRetryOnFailure());
+        string connectionString = "Server=localhost;Database=AndresTestDB;Uid=sa;Pwd=Miyamoto81;TrustServerCertificate=yes;";
+        // string connectionString = "Driver={ODBC Driver 18 for SQL Server};Server=localhost;Database=AndresTestDB;Uid=sa;Pwd=Miyamoto81;TrustServerCertificate=yes;";
+        // OdbcConnection connection = new OdbcConnection(connectionString);
+        // optionsBuilder.UseSqlServer(connection, options => options.EnableRetryOnFailure());
+        optionsBuilder.UseSqlServer(connectionString, options => options.EnableRetryOnFailure());
     }
 
     #endregion
