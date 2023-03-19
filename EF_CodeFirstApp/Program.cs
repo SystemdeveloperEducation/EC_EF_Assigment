@@ -3,6 +3,7 @@ using EF_CodeFirstApp.Models.Forms;
 using EF_CodeFirstApp.Services;
 
 var menu = new Menu();
-Console.WriteLine("Hello, World!");
-await menu.CreateNow();
-
+while (true)
+{
+    await menu.MainMenu();
+}

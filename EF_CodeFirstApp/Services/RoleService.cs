@@ -11,19 +11,18 @@ internal class RoleService
     public async Task<RoleEntity> GetOrCreateIfNotExistsAsync(string roleName)
     {
         System.Console.WriteLine("INSIDE GETORCREATE!!!");
-        // TODO I get not a reference to object fix it
-        // var roleEntity = await _context.Roles.FirstOrDefaultAsync(x => x.Name == roleName);  //.Roles.FirstOrDefaultAsync(x => x.Name == roleName);
+        var roleEntity = await _context.Roles.FirstOrDefaultAsync(x => x.Name == roleName);  //.Roles.FirstOrDefaultAsync(x => x.Name == roleName);
         // System.Console.WriteLine($"Inside getOrcreate ROLES <<<<<  {roleEntity.Name}");
-        // if (roleEntity == null)
-        // {
-        var roleEntity = new RoleEntity
+        if (roleEntity == null)
         {
-            Name = roleName
-        };
-        System.Console.WriteLine($"Created new Role entetity with name {roleEntity.Name}");
-        await _context.Roles.AddAsync(roleEntity);
-        await _context.SaveChangesAsync();
-        // }
+            roleEntity = new RoleEntity
+            {
+                Name = roleName
+            };
+            System.Console.WriteLine($"Created new Role entetity with name {roleEntity.Name}");
+            await _context.Roles.AddAsync(roleEntity);
+            await _context.SaveChangesAsync();
+        }
         System.Console.WriteLine("Changes SAVED");
         return roleEntity;
     }
