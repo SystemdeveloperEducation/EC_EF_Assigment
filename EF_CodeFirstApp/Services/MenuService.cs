@@ -46,7 +46,7 @@ public class Menu
                 Invalid();
                 break;
         }
-        Console.WriteLine("Press any key to continue...");
+        Console.WriteLine("\nPress any key to continue...");
         Console.ReadKey();
     }
 
@@ -62,7 +62,7 @@ public class Menu
         var regForm = new IssuerRegistrationForm();
         Console.Clear();
         Console.ForegroundColor = ConsoleColor.Magenta;
-        Console.WriteLine("<<<<<<<<CREATE A NEW ISSUER>>>>>>>>");
+        Console.WriteLine("<<<<<<<<CREATE A NEW ISSUER>>>>>>>>\n\n");
         Console.ResetColor();
         Console.WriteLine("Enter the first name");
         regForm.FirstName = Console.ReadLine()!;
@@ -81,7 +81,7 @@ public class Menu
     public async Task GetUserByEmail()
     {
         Console.Clear();
-        Console.WriteLine("Enter Email");
+        Console.WriteLine("Enter Email\n");
         Console.Write("|> ");
         var email = Console.ReadLine();
         var issuerByEmail = await issuerService.GetAsync(email);
@@ -91,13 +91,13 @@ public class Menu
     public async Task Getall()
     {
         Console.Clear();
-        Console.ForegroundColor = ConsoleColor.Magenta;
-        Console.WriteLine("<<<<<<<<LIST OF THE ISSUERS>>>>>>>>");
+        Console.ForegroundColor = ConsoleColor.DarkYellow;
+        Console.WriteLine("<<<<<<<<LIST OF THE ISSUERS>>>>>>>>\n");
         Console.ResetColor();
         var issuers = await issuerService.GetallAsync();
         foreach (var issuer in issuers)
         {
-            Console.WriteLine($"{issuer.FirstName}, {issuer.LastName}, {issuer.Email}, {issuer.PhoneNumber}, {issuer.RoleId}, {issuer.Role.Name}");
+            Console.WriteLine($"|> {issuer.FirstName}, {issuer.LastName}, {issuer.Email}, {issuer.PhoneNumber}, {issuer.RoleId}, {issuer.Role.Name}\n");
         }
     }
 
@@ -105,7 +105,7 @@ public class Menu
     {
         Console.Clear();
         Console.ForegroundColor = ConsoleColor.Magenta;
-        Console.WriteLine("<<<<<<<<GOODBYE>>>>>>>>");
+        Console.WriteLine("<<<<<<<<GOODBYE>>>>>>>>\n");
         Console.ResetColor();
         Environment.Exit(0);
 
@@ -115,7 +115,7 @@ public class Menu
     {
         Console.Clear();
         Console.ForegroundColor = ConsoleColor.Red;
-        Console.WriteLine("<<<<<<<<INVALID OPTION>>>>>>>>");
+        Console.WriteLine("<<<<<<<<INVALID OPTION>>>>>>>>\n");
         Console.ResetColor();
     }
 }
