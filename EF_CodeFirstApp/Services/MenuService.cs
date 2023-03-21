@@ -6,7 +6,7 @@ namespace EF_CodeFirstApp.Services;
 
 public class Menu
 {
-    private readonly IssuerService issuerService = new IssuerService();
+    private readonly IssueService issueService = new IssueService();
 
     public async Task MainMenu()
     {
@@ -22,16 +22,19 @@ public class Menu
 ");
 
         Console.ResetColor();
-        Console.WriteLine("1. Create a new issuer");
-        Console.WriteLine("2. Get all issuers");
-        Console.WriteLine("3. Get issuer by email");
-        Console.WriteLine("4. Exit");
+        Console.WriteLine("1. Create a new issue");
+        Console.WriteLine("2. Get all users");
+        Console.WriteLine("3. Get user by email");
+        Console.WriteLine("4. Get all issues");
+        Console.WriteLine("5. Get issues by email");
+        Console.WriteLine("6. Update issue status");
+        Console.WriteLine("7. Exit");
         Console.Write("\n|> ");
         var option = Console.ReadLine();
         switch (option)
         {
             case "1":
-                await CreateIssuer();
+                await CreateIssue();
                 break;
             case "2":
                 await Getall();
@@ -40,6 +43,15 @@ public class Menu
                 await GetUserByEmail();
                 break;
             case "4":
+                await GetallIssues();
+                break;
+            case "5":
+                await GeIssuesByEmail();
+                break;
+            case "6":
+                await UpdateIssuStatus();
+                break;
+            case "7":
                 Exit();
                 break;
             default:
@@ -51,29 +63,31 @@ public class Menu
     }
 
 
-    public async Task CreateIssuer()
+    public async Task CreateIssue()
     {
-        var regForm = InteractiveCreateIssuer();
-        await issuerService.CreateAsync(regForm);
+        var regForm = InteractiveCreateIssue();
+        await issueService.CreateAsync(regForm);
     }
 
-    public IssuerRegistrationForm InteractiveCreateIssuer()
+    public IssueRegistrationForm InteractiveCreateIssue()
     {
-        var regForm = new IssuerRegistrationForm();
+        var regForm = new IssueRegistrationForm();
         Console.Clear();
         Console.ForegroundColor = ConsoleColor.Magenta;
-        Console.WriteLine("<<<<<<<<CREATE A NEW ISSUER>>>>>>>>\n\n");
+        Console.WriteLine("<<<<<<<<CREATE A NEW ISSUE>>>>>>>>\n\n");
         Console.ResetColor();
-        Console.WriteLine("Enter the first name");
+        Console.WriteLine("Enter the first name:");
         regForm.FirstName = Console.ReadLine()!;
-        Console.WriteLine("Enter the last name");
+        Console.WriteLine("Enter the last name:");
         regForm.LastName = Console.ReadLine();
-        Console.WriteLine("Enter the email");
+        Console.WriteLine("Enter the email:");
         regForm.Email = Console.ReadLine();
-        Console.WriteLine("Enter the phone number");
+        Console.WriteLine("Enter the phone number:");
         regForm.PhoneNumber = Console.ReadLine();
-        Console.WriteLine("Enter the role name");
+        Console.WriteLine("Enter the role name:");
         regForm.RoleName = Console.ReadLine();
+        Console.WriteLine("Describe the issue:");
+        regForm.IssueDescription = Console.ReadLine();
         return regForm;
     }
 
@@ -84,7 +98,7 @@ public class Menu
         Console.WriteLine("Enter Email\n");
         Console.Write("|> ");
         var email = Console.ReadLine();
-        var issuerByEmail = await issuerService.GetAsync(email);
+        var issuerByEmail = await issueService.GetAsync(email);
         Console.WriteLine($"{issuerByEmail.FirstName}, {issuerByEmail.LastName}, {issuerByEmail.Email}");
     }
 
@@ -94,8 +108,8 @@ public class Menu
         Console.ForegroundColor = ConsoleColor.DarkYellow;
         Console.WriteLine("<<<<<<<<LIST OF THE ISSUERS>>>>>>>>\n");
         Console.ResetColor();
-        var issuers = await issuerService.GetallAsync();
-        foreach (var issuer in issuers)
+        var issues = await issueService.GetallAsync();
+        foreach (var issuer in issues)
         {
             Console.WriteLine($"|> {issuer.FirstName}, {issuer.LastName}, {issuer.Email}, {issuer.PhoneNumber}, {issuer.RoleId}, {issuer.Role.Name}\n");
         }
@@ -109,6 +123,21 @@ public class Menu
         Console.ResetColor();
         Environment.Exit(0);
 
+    }
+
+    private Task UpdateIssuStatus()
+    {
+        throw new NotImplementedException();
+    }
+
+    private Task GeIssuesByEmail()
+    {
+        throw new NotImplementedException();
+    }
+
+    private Task GetallIssues()
+    {
+        throw new NotImplementedException();
     }
 
     private void Invalid()

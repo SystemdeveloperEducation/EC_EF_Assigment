@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace EF_CodeFirstApp.Models.Entities;
 
-internal class IssuersEntity
+internal class UserEntity
 {
     public int Id { get; set; }
     public string FirstName { get; set; } = null!;

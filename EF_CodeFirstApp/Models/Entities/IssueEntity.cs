@@ -9,5 +9,5 @@ internal class IssueEntity
     // the code down translate to : IssueEntity can be have association with many Issuers
     public DateTime CreatedAt { get; set; }
     public int IssuerId { get; set; }
-    public IssuersEntity Issuer { get; set; } = null!;
+    public UserEntity Issuer { get; set; } = null!;
 }
