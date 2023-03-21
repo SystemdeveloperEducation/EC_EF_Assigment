@@ -26,7 +26,7 @@ public class Menu
         Console.WriteLine("2. Get all issuers");
         Console.WriteLine("3. Get issuer by email");
         Console.WriteLine("4. Exit");
-        Console.Write("|> ");
+        Console.Write("\n|> ");
         var option = Console.ReadLine();
         switch (option)
         {
