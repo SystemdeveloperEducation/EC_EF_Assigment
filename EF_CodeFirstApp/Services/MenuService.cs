@@ -7,6 +7,7 @@ namespace EF_CodeFirstApp.Services;
 public class Menu
 {
     private readonly IssueService issueService = new IssueService();
+    private readonly UserService userService = new UserService();
 
     public async Task MainMenu()
     {
@@ -25,10 +26,8 @@ public class Menu
         Console.WriteLine("1. Create a new issue");
         Console.WriteLine("2. Get all users");
         Console.WriteLine("3. Get user by email");
-        Console.WriteLine("4. Get all issues");
-        Console.WriteLine("5. Get issues by email");
-        Console.WriteLine("6. Update issue status");
-        Console.WriteLine("7. Exit");
+        Console.WriteLine("4. IssuesMenu");
+        Console.WriteLine("5. Exit");
         Console.Write("\n|> ");
         var option = Console.ReadLine();
         switch (option)
@@ -37,21 +36,15 @@ public class Menu
                 await CreateIssue();
                 break;
             case "2":
-                await Getall();
+                await GetAllUsers();
                 break;
             case "3":
                 await GetUserByEmail();
                 break;
             case "4":
-                await GetallIssues();
+                await Issues();
                 break;
             case "5":
-                await GeIssuesByEmail();
-                break;
-            case "6":
-                await UpdateIssuStatus();
-                break;
-            case "7":
                 Exit();
                 break;
             default:
@@ -65,11 +58,11 @@ public class Menu
 
     public async Task CreateIssue()
     {
-        var regForm = InteractiveCreateIssue();
-        await issueService.CreateAsync(regForm);
+        var regForm = GetInteractiveCreateIssue();
+        await userService.CreateAsync(regForm);
     }
 
-    public IssueRegistrationForm InteractiveCreateIssue()
+    public IssueRegistrationForm GetInteractiveCreateIssue()
     {
         var regForm = new IssueRegistrationForm();
         Console.Clear();
@@ -91,6 +84,18 @@ public class Menu
         return regForm;
     }
 
+    public async Task GetAllUsers()
+    {
+        Console.Clear();
+        Console.ForegroundColor = ConsoleColor.DarkYellow;
+        Console.WriteLine("<<<<<<<<LIST OF THE ISSUERS>>>>>>>>\n");
+        Console.ResetColor();
+        var issues = await userService.GetallAsync();
+        foreach (var issuer in issues)
+        {
+            Console.WriteLine($"|> {issuer.FirstName}, {issuer.LastName}, {issuer.Email}, {issuer.PhoneNumber}, {issuer.RoleId}, {issuer.Role.Name}\n");
+        }
+    }
 
     public async Task GetUserByEmail()
     {
@@ -98,21 +103,40 @@ public class Menu
         Console.WriteLine("Enter Email\n");
         Console.Write("|> ");
         var email = Console.ReadLine();
-        var issuerByEmail = await issueService.GetAsync(email);
+        var issuerByEmail = await userService.GetAsync(email);
         Console.WriteLine($"{issuerByEmail.FirstName}, {issuerByEmail.LastName}, {issuerByEmail.Email}");
     }
 
-    public async Task Getall()
+    private async Task Issues()
     {
         Console.Clear();
-        Console.ForegroundColor = ConsoleColor.DarkYellow;
-        Console.WriteLine("<<<<<<<<LIST OF THE ISSUERS>>>>>>>>\n");
         Console.ResetColor();
-        var issues = await issueService.GetallAsync();
-        foreach (var issuer in issues)
+        Console.WriteLine("1. Get all issues");
+        Console.WriteLine("2. Get issues by email");
+        Console.WriteLine("3. Update issue status");
+        Console.WriteLine("4. Exit");
+        Console.Write("\n|> ");
+        var option = Console.ReadLine();
+        switch (option)
         {
-            Console.WriteLine($"|> {issuer.FirstName}, {issuer.LastName}, {issuer.Email}, {issuer.PhoneNumber}, {issuer.RoleId}, {issuer.Role.Name}\n");
+            case "1":
+                issueService.GetAllIssues();
+                break;
+            case "2":
+                issueService.GeIssuesByEmail();
+                break;
+            case "3":
+                issueService.UpdateIssuStatus();
+                break;
+            case "4":
+                Exit();
+                break;
+            default:
+                Invalid();
+                break;
         }
+        // Console.WriteLine("\nPress any key to continue...");
+        // Console.ReadKey();
     }
 
     private void Exit()
@@ -122,22 +146,6 @@ public class Menu
         Console.WriteLine("<<<<<<<<GOODBYE>>>>>>>>\n");
         Console.ResetColor();
         Environment.Exit(0);
-
-    }
-
-    private Task UpdateIssuStatus()
-    {
-        throw new NotImplementedException();
-    }
-
-    private Task GeIssuesByEmail()
-    {
-        throw new NotImplementedException();
-    }
-
-    private Task GetallIssues()
-    {
-        throw new NotImplementedException();
     }
 
     private void Invalid()

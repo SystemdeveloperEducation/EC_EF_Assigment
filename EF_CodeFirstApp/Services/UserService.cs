@@ -5,47 +5,48 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EF_CodeFirstApp.Services;
 
-internal class IssueService
+internal class UserService
 {
     private readonly DataContext _context = new DataContext();
     private readonly RoleService _roleService = new RoleService();
-
+    private readonly IssueService _issueService = new IssueService();
     public async Task<IEnumerable<UserEntity>> GetallAsync()
     {
-        // Includes the Category property in the query
+        // Includes the Role property in the query
         // This is a join query
-        return await _context.Issuers.Include(x => x.Role).ToListAsync();
+        return await _context.Users.Include(x => x.Role).ToListAsync();
     }
 
     public async Task<UserEntity> GetAsync(string email)
     {
-        var issuersEntity = await _context.Issuers.Include(x => x.Role).FirstOrDefaultAsync(x => x.Email == email);
-        if (issuersEntity != null)
-            return issuersEntity;
+        var userEntity = await _context.Users.Include(x => x.Role).FirstOrDefaultAsync(x => x.Email == email);
+        if (userEntity != null)
+            return userEntity;
 
         return null!;
     }
 
-    public async Task<UserEntity> CreateAsync(IssueRegistrationForm issuerRegistrationForm)
+    public async Task<UserEntity> CreateAsync(IssueRegistrationForm issueRegistrationForm)
     {
-        System.Console.WriteLine($"entering the CreateAsync method with {issuerRegistrationForm.Email}");
-        if (await _context.Issuers.AnyAsync(x => x.Email == issuerRegistrationForm.Email))
+        System.Console.WriteLine($"entering the CreateAsync method with {issueRegistrationForm.Email}");
+        if (await _context.Users.AnyAsync(x => x.Email == issueRegistrationForm.Email))
         {
-            System.Console.WriteLine($"found the email {issuerRegistrationForm.Email} in the database");
+            System.Console.WriteLine($"found the email {issueRegistrationForm.Email} in the database");
             return null!;
         }
-        System.Console.WriteLine($"did not find the email {issuerRegistrationForm.Email} in the database creating new Issuer");
-        var roleEntity = new RoleEntity()
-        {
-            Id = 1,
-        };
+        System.Console.WriteLine($"did not find the email {issueRegistrationForm.Email} in the database creating new Issuer");
+        // var roleEntity = new RoleEntity()
+        // {
+        //     Id = 1,
+        // };
         var userEntity = new UserEntity()
         {
-            FirstName = issuerRegistrationForm.FirstName,
-            LastName = issuerRegistrationForm.LastName,
-            Email = issuerRegistrationForm.Email,
-            PhoneNumber = issuerRegistrationForm.PhoneNumber,
-            RoleId = (await _roleService.GetOrCreateIfNotExistsAsync(issuerRegistrationForm.RoleName)).Id,
+            FirstName = issueRegistrationForm.FirstName,
+            LastName = issueRegistrationForm.LastName,
+            Email = issueRegistrationForm.Email,
+            PhoneNumber = issueRegistrationForm.PhoneNumber,
+            RoleId = (await _roleService.GetOrCreateIfNotExistsAsync(issueRegistrationForm.RoleName)).Id,
+            // Issues = (await _issueService.GetOrCreateIfNotExistsAsync(issueRegistrationForm.IssueDescription, issueRegistrationForm.Email)).Id,
             // CategoryId = (await _roreService.GetOrCreateIfNotExistsAsync(productRegistrationForm.CategoryName)).Id,
         };
         Console.WriteLine($"created the Issuer Model with {userEntity.FirstName}, {userEntity.Email}, {userEntity.RoleId}");

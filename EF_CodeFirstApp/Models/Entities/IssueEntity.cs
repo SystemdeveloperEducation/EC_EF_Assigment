@@ -8,6 +8,6 @@ internal class IssueEntity
     public string Description { get; set; } = null!;
     // the code down translate to : IssueEntity can be have association with many Issuers
     public DateTime CreatedAt { get; set; }
-    public int IssuerId { get; set; }
-    public UserEntity Issuer { get; set; } = null!;
+    public int UserId { get; set; }
+    public UserEntity User { get; set; } = null!;
 }

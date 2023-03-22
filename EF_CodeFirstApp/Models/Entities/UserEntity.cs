@@ -12,5 +12,6 @@ internal class UserEntity
     // tho code below says that an Issuer can have only one Role
     public int RoleId { get; set; }
     public RoleEntity Role { get; set; } = null!;
+    // the code below says that an Issuer can have many Issues
     public ICollection<IssueEntity> Issues { get; set; } = new HashSet<IssueEntity>();
 }
