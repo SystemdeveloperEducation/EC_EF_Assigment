@@ -135,8 +135,6 @@ public class Menu
                 Invalid();
                 break;
         }
-        // Console.WriteLine("\nPress any key to continue...");
-        // Console.ReadKey();
     }
 
     private void Exit()
